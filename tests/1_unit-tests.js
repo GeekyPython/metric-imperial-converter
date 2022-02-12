@@ -72,7 +72,7 @@ suite('Unit Tests', function(){
         });
 
         test("#isLtrs. #isNotLtrs", () => {
-            assert.isTrue(/L/i.test(convertHandler.getReturnUnit("gal")));
+            assert.isTrue(/L/.test(convertHandler.getReturnUnit("gal")));
         });
 
         test("#isGal. #isNotGal", () => {

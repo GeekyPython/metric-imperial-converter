@@ -205,9 +205,10 @@ function ConvertHandler() {
 }
 
 //Test outputs
-// const converter = new ConvertHandler;
+ const converter = new ConvertHandler;
 // console.log(converter.getReturnUnit("3/7.2/4kilomegagram"));
 // console.log(converter.convert(converter.getNum("8.4/2g"), converter.getUnit("8.4/2g")));
+console.log(converter.getReturnUnit("gal"));
 
 
 module.exports = ConvertHandler;
