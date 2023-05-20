@@ -11,14 +11,36 @@ function ConvertHandler() {
   
   this.getNum = function(input) {
     let result;
-    let isDigit = /\d/;
-    let inputArray = input.split('');
 
-    let index = inputArray.length - 1;
+    let isDigit = /\d/;
+    let isNumberPresent = /\d/g;
+    let startsWithChars = /[^\w\d]/ig;
+    let nonChars = /[^\w\d]/ig;
+
+    let inputArray = input.split('');
+    console.log(`Input: ${input}, inputArray: ${inputArray}`);
+    console.log(`Non characters: ${input.match(nonChars)}`);
+
+    if(!isNumberPresent.test(input))
+    {
+      result = 1;
+      console.log(`No number provided in input, setting number to 1`);
+      return result;
+    }
+
+    else if( (input.match(nonChars) && input.match(nonChars).length > 2) || startsWithChars.test(input))
+    {
+      console.log("Invalid number provided");
+      return "invalid number";
+    }
+
+    //Getting numerical value from from the provided input
+    let index = inputArray.length - 1;    
     while(!isDigit.test(inputArray[index]))
     {
       index--;
     }
+    
     result = eval(inputArray.splice(0, index+1).join(''));
     return result;
   };
@@ -26,7 +48,13 @@ function ConvertHandler() {
   this.getUnit = function(input) {
     let result;
     let isDigit = /\d/;
+    let isNumberPresent = /\d/g;
     let inputArray = input.split('');
+
+    if(!isNumberPresent.test(input))
+    {
+      return (conversionUnits.hasOwnProperty(input)) ? input : "invalid unit"
+    }
 
     let index = inputArray.length - 1;
     while(!isDigit.test(inputArray[index]))
@@ -39,7 +67,7 @@ function ConvertHandler() {
   
   this.getReturnUnit = function(initUnit) {
     let result;
-    console.log(initUnit, conversionUnits[initUnit])
+    //console.log(initUnit, conversionUnits[initUnit])
     result = conversionUnits[initUnit];
     return result;
   };
@@ -86,6 +114,11 @@ function ConvertHandler() {
     const miToKm = 1.60934;
     let result;
     
+    if(initNum == "invalid number")
+    {
+      return "invalid number"
+    }
+
     switch(initUnit)
     {
       case "kg":
@@ -111,6 +144,9 @@ function ConvertHandler() {
       case "gal":
           result = initNum * galToL;
       break;
+      
+      default:
+        result = "invalid unit";
     }
 
     result = Math.round(result * 100000)/100000;

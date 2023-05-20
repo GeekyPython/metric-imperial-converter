@@ -11,11 +11,16 @@ module.exports = function (app) {
 
     try{
       
-      const initNum =  convertHandler.getNum(req.query.input) | 1;
+      const initNum =  convertHandler.getNum(req.query.input);
       const initUnit =  convertHandler.getUnit(req.query.input);
       const returnNum = convertHandler.convert(initNum, initUnit);
       const returnUnit =  convertHandler.getReturnUnit(initUnit);
       const fullString =  convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
+
+      if(initNum == "invalid number" || initUnit == "invalid unit")
+      {
+        return res.status(500).send("invalid number");
+      }
 
       console.log(returnUnit);
       res.status(200).json({initNum, initUnit, returnNum, returnUnit, string: fullString});
