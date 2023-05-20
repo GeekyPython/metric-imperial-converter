@@ -19,7 +19,9 @@ module.exports = function (app) {
 
       if(initNum == "invalid number" || initUnit == "invalid unit")
       {
-        return res.status(500).send("invalid number");
+        return res.status(500).send((initNum == "invalid number" || initUnit == "invalid unit") ? 
+                                    "invalid number and unit" : initUnit == "invalid unit" ? 
+                                    "invalid unit" : "invalid number");
       }
 
       console.log(returnUnit);

@@ -14,13 +14,12 @@ function ConvertHandler() {
 
     let isDigit = /\d/;
     let isNumberPresent = /\d/g;
-    let startsWithChars = /[^\w\d]/ig;
-    let nonChars = /[^\w\d]/ig;
+    let startsWithChars = /^[\D]/ig;
+    let nonChars = /[\W_]/ig;
 
     let inputArray = input.split('');
-    console.log(`Input: ${input}, inputArray: ${inputArray}`);
-    console.log(`Non characters: ${input.match(nonChars)}`);
 
+    //if there is no numerical value provided
     if(!isNumberPresent.test(input))
     {
       result = 1;
@@ -28,7 +27,8 @@ function ConvertHandler() {
       return result;
     }
 
-    else if( (input.match(nonChars) && input.match(nonChars).length > 2) || startsWithChars.test(input))
+    //Check if there are falsy numerical values
+    else if(startsWithChars.test(input) || (input.match(nonChars) && input.match(nonChars).length >= 2))
     {
       console.log("Invalid number provided");
       return "invalid number";
@@ -53,7 +53,7 @@ function ConvertHandler() {
 
     if(!isNumberPresent.test(input))
     {
-      return (conversionUnits.hasOwnProperty(input)) ? input : "invalid unit"
+      return (conversionUnits.hasOwnProperty(input)) ? input : "invalid unit";
     }
 
     let index = inputArray.length - 1;
@@ -62,12 +62,17 @@ function ConvertHandler() {
       index--;
     }
     result = inputArray.splice(index+1, inputArray.length-1).join('');
+
+    if(!conversionUnits.hasOwnProperty(result))
+    {
+      result = "invalid unit";
+    }
+
     return result;
   };
   
   this.getReturnUnit = function(initUnit) {
     let result;
-    //console.log(initUnit, conversionUnits[initUnit])
     result = conversionUnits[initUnit];
     return result;
   };
