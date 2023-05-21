@@ -64,21 +64,24 @@ function ConvertHandler() {
     }
     result = inputArray.splice(index+1, inputArray.length-1).join('');
 
-    if(!result === "l" && !conversionUnits.hasOwnProperty(result))
+    console.log(`Inside getUnit, initUnit: ${result}`);
+
+    if(result === "l")
+    {
+      return "L";
+    }
+
+    if(!conversionUnits.hasOwnProperty(result))
     {
       result = "invalid unit";
     }
-
-    else 
-    {
-      result = "L";
-    }
-
+    
     return result;
   };
   
   this.getReturnUnit = function(initUnit) {
     let result;
+    console.log(`InitUnit for returnUnit: ${initUnit}`);
     if(initUnit === "l") return "L";
     result = conversionUnits[initUnit];
     return result;
