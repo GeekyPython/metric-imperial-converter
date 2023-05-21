@@ -14,8 +14,10 @@ function ConvertHandler() {
 
     let isDigit = /\d/;
     let isNumberPresent = /\d/g;
-    let startsWithChars = /^[\D]/ig;
-    let nonChars = /[\W_]/ig;
+    const acceptableStart = /^[\d\.]/;
+    let isDecimalFraction = /\d*\.?\d+\/{1}\d*\.?\d+/;
+    let isDecimal =  /\d*\.?\d+/;
+    let nonChars = /[\W_]/g;
 
     let inputArray = input.split('');
 
@@ -27,21 +29,28 @@ function ConvertHandler() {
       return result;
     }
 
-    //Check if there are falsy numerical values
-    else if(startsWithChars.test(input) || (input.match(nonChars) && input.match(nonChars).length >= 2))
-    {
-      console.log("Invalid number provided");
-      return "invalid number";
-    }
-
     //Getting numerical value from from the provided input
     let index = inputArray.length - 1;    
     while(!isDigit.test(inputArray[index]))
     {
       index--;
     }
+
+    let temp = inputArray.splice(0, index+1).join('');
+    console.log(`Temp value before eval: ${temp}`);
     
-    result = eval(inputArray.splice(0, index+1).join(''));
+    if(!acceptableStart.test(input) || (input.match(nonChars) &&  (input.match(nonChars).length >=2 && (!isDecimal.test(temp) || !isDecimalFraction.test(temp)))))
+    {
+      console.log("Invalid number provided");
+      return "invalid number";
+    }
+
+    result = eval(temp);
+
+
+
+    console.log(`In getNum, result = ${result}`);
+
     return result;
   };
   
@@ -75,7 +84,7 @@ function ConvertHandler() {
     {
       result = "invalid unit";
     }
-    
+
     return result;
   };
   
