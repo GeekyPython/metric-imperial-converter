@@ -46,6 +46,7 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
+    input = input.toLowerCase();
     let result;
     let isDigit = /\d/;
     let isNumberPresent = /\d/g;
@@ -63,9 +64,14 @@ function ConvertHandler() {
     }
     result = inputArray.splice(index+1, inputArray.length-1).join('');
 
-    if(!conversionUnits.hasOwnProperty(result))
+    if(!result === "l" && !conversionUnits.hasOwnProperty(result))
     {
       result = "invalid unit";
+    }
+
+    else 
+    {
+      result = "L";
     }
 
     return result;
@@ -73,6 +79,7 @@ function ConvertHandler() {
   
   this.getReturnUnit = function(initUnit) {
     let result;
+    if(initUnit === "l") return "L";
     result = conversionUnits[initUnit];
     return result;
   };
@@ -98,6 +105,10 @@ function ConvertHandler() {
           result = "kilometers";
       break;
 
+      case "l":
+          result = "liters";
+      break;
+      
       case "L":
           result = "liters";
       break;
@@ -107,7 +118,7 @@ function ConvertHandler() {
       break;
 
       default:
-          result = "undefined";
+          result = "invalid unit";
     }
 
     return result;
