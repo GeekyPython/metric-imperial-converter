@@ -27,9 +27,13 @@ suite('Unit Tests', function(){
         assert.strictEqual(2/7.3, convertHandler.getNum("2/7.3L"));
     });
 
-    // test("#shouldFailForInvalidNumberProvided", function () {
-    //     assert.fail(0.5, convertHandler.getNum("3/2/3L"));
-    // });
+    test("#shouldFailForInvalidNumberProvided", function () {
+        assert.equal("invalid number", convertHandler.getNum("/2/3L"));
+    });
+
+    test("#shouldDefaultTo1OnNoNumericalInputProvided", function () {
+        assert.equal(1, convertHandler.getNum("kg"));
+    });
 
     test("#shouldReadCorrectUnitFromInput", function () {
         assert.equal("kg", convertHandler.getUnit("3kg"));
@@ -46,14 +50,36 @@ suite('Unit Tests', function(){
         assert.notEqual(convertHandler.getUnit("3.4"), "kg");
     });
 
-    test("#shouldReturnCorrectReturnUnitForGivenInput", function () {
-        assert.equal(convertHandler.getReturnUnit("kg"), "lbs");
-        assert.equal(convertHandler.getReturnUnit("lbs"), "kg");
-        assert.equal(convertHandler.getReturnUnit("km"), "mi");
-        assert.equal(convertHandler.getReturnUnit("mi"), "km");
-        assert.equal(convertHandler.getReturnUnit("L"), "gal");
-        assert.equal(convertHandler.getReturnUnit("gal"), "L");
+    test("#shouldReturnCorrectSpelledOutUnitForAGivenUnit", function () {
+        assert.equal("liters", convertHandler.spellOutUnit("L"));
+        assert.equal("kilograms", convertHandler.spellOutUnit("kg"));
+        assert.equal("pounds", convertHandler.spellOutUnit("lbs"));
+        assert.equal("miles", convertHandler.spellOutUnit("mi"));
+        assert.equal("kilometers", convertHandler.spellOutUnit("km"));
+        assert.equal("gallons", convertHandler.spellOutUnit("gal"));
     });
 
+    test("#shouldCorrectlyConvertFromGaltoL", function () {
+        assert.equal(convertHandler.getReturnUnit("gal"), "L");
+    });
     
+    test("#shouldCorrectlyConvertFromLtoGal", function () {
+        assert.equal(convertHandler.getReturnUnit("L"), "gal");
+    });
+
+    test("#shouldCorrectlyConvertFromKmtoMi", function () {
+        assert.equal(convertHandler.getReturnUnit("km"), "mi");
+    });
+
+    test("#shouldCorrectlyConvertFromMitoKm", function () {
+        assert.equal(convertHandler.getReturnUnit("mi"), "km");
+    });
+
+    test("#shouldCorrectlyConvertFromKgtoLbs", function () {
+        assert.equal(convertHandler.getReturnUnit("kg"), "lbs");
+    });
+
+    test("#shouldCorrectlyConvertFromLbstoKg", function () {
+        assert.equal(convertHandler.getReturnUnit("lbs"), "kg");
+    });  
 });
