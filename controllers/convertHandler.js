@@ -38,17 +38,15 @@ function ConvertHandler() {
 
     let temp = inputArray.splice(0, index+1).join('');
     console.log(`Temp value before eval: ${temp}`);
-    
-    if(!acceptableStart.test(input) || (input.match(nonChars) &&  (input.match(nonChars).length >=2 && (!isDecimal.test(temp) || !isDecimalFraction.test(temp)))))
+    //console.log(`Number of slashes: ${temp.match(/\//g).length}`)
+
+    if(!acceptableStart.test(input) || (temp.match(/\//g) && temp.match(/\//g).length >=2) || (input.match(nonChars) &&  (input.match(nonChars).length >=2 && (!isDecimal.test(temp) || !isDecimalFraction.test(temp)))))
     {
       console.log("Invalid number provided");
       return "invalid number";
     }
 
-    result = eval(temp);
-
-
-
+    result = Math.round(eval(temp) * 100000) / 100000;
     console.log(`In getNum, result = ${result}`);
 
     return result;
@@ -178,6 +176,7 @@ function ConvertHandler() {
     }
 
     result = Math.round(result * 100000)/100000;
+    console.log(`Conversion result: ${result}`)
     return result;
   };
   
